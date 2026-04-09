@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventAI — Automate Your Events</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --black: #080808;
+      --black-soft: #111111;
+      --black-mid: #1A1A1A;
+      --purple: #8B5CF6;
+      --purple-light: #A78BFA;
+      --purple-dark: #7C3AED;
+      --gold: #D4AF37;
+      --gold-light: #E8C547;
+      --white: #FAFAFA;
+      --gray: #6B6B6B;
+      --gray-dark: #2A2A2A;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: linear-gradient(180deg, var(--black) 0%, transparent 100%);
+    }
+
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--white);
+    }
+
+    .logo span { color: var(--purple-light); }
+
+    .nav-cta {
+      padding: 0.6rem 1.25rem;
+      background: transparent;
+      border: 1px solid var(--gray-dark);
+      color: var(--white);
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-cta:hover {
+      border-color: var(--purple);
+      background: rgba(139,92,246,0.1);
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      background: 
+        radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.12) 0%, transparent 60%),
+        var(--black);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .tagline {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--purple-light);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      margin-bottom: 1.75rem;
+      max-width: 900px;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, var(--white) 0%, var(--gray) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--gray);
+      max-width: 580px;
+      margin-bottom: 3rem;
+      line-height: 1.7;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-primary {
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .cta-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(139,92,246,0.4);
+    }
+
+    .cta-secondary {
+      padding: 1rem 2.5rem;
+      background: transparent;
+      border: 1px solid var(--gray-dark);
+      color: var(--white);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .cta-secondary:hover {
+      border-color: var(--white);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .note {
+      font-size: 0.875rem;
+      color: var(--gray);
+      margin-top: 1.5rem;
+    }
+
+    /* Features */
+    .section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--purple-light);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 3rem;
+      max-width: 600px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature {
+      background: var(--black-soft);
+      border: 1px solid var(--gray-dark);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+
+    .feature:hover {
+      border-color: var(--purple);
+      transform: translateY(-4px);
+      background: var(--black-mid);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(139,92,246,0.05));
+      border: 1px solid rgba(139,92,246,0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .feature h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature p {
+      font-size: 0.95rem;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      background: var(--black-soft);
+      border-top: 1px solid var(--gray-dark);
+      border-bottom: 1px solid var(--gray-dark);
+      padding: 6rem 2rem;
+    }
+
+    .testimonials-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .testimonial {
+      background: var(--black);
+      border: 1px solid var(--gray-dark);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+
+    .testimonial-stars {
+      color: var(--gold);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.2em;
+    }
+
+    .testimonial-text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .author-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .author-info h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .author-info p {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    /* Footer */
+    footer {
+      padding: 4rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--gray-dark);
+    }
+
+    footer p {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .cta-group { flex-direction: column; width: 100%; }
+      .cta-primary, .cta-secondary { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">Event<span>AI</span></div>
+    <button class="nav-cta">Book a Demo</button>
+  </nav>
+
+  <div class="hero">
+    <p class="tagline">AI-Powered Event Planning</p>
+    
+    <h1>Plan Events.<br><span>Not Spreadsheets.</span></h1>
+    
+    <p class="subtitle">Automate your event planning and marketing with AI. Create timelines, generate promotional content, and manage attendees — in seconds.</p>
+    
+    <div class="cta-group">
+      <button class="cta-primary" onclick="document.getElementById('waitlist').scrollIntoView({behavior: 'smooth'})">Get Early Access</button>
+      <button class="cta-secondary">See How It Works</button>
+    </div>
+    
+    <p class="note">Join 2,500+ event professionals on the waitlist</p>
+  </div>
+
+  <section class="section">
+    <p class="section-label">Capabilities</p>
+    <h2 class="section-title">Everything you need to run successful events</h2>
+    
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">📅</div>
+        <h3>Smart Scheduling</h3>
+        <p>AI suggests optimal dates, venues and timelines based on your event type, audience preferences and historical data.</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">📱</div>
+        <h3>Auto Marketing</h3>
+        <p>Generate social posts, email campaigns and promotional materials tailored to your brand in a single click.</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">🎯</div>
+        <h3>Attendee Insights</h3>
+        <p>Predict attendance rates, optimize pricing strategies and segment your audience with powerful AI analytics.</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>Vendor Matching</h3>
+        <p>Get matched with perfect vendors based on budget, location, availability and past event performance data.</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">🤖</div>
+        <h3>AI Assistant</h3>
+        <p>Chat with your personal event assistant. Ask questions, get recommendations and automate routine tasks.</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <h3>Post-Event Analytics</h3>
+        <p>Comprehensive reports on attendance, engagement and ROI with AI-powered insights for your next event.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <div class="testimonials-inner">
+      <section class="section" style="padding-top: 0; padding-bottom: 0;">
+        <p class="section-label">Testimonials</p>
+        <h2 class="section-title">Loved by event professionals</h2>
+      </section>
+      
+      <div class="testimonials-grid">
+        <div class="testimonial">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"EventAI saved us 20+ hours on our last conference. The marketing copy it generated was better than what we paid a agency for."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">SM</div>
+            <div class="author-info">
+              <h4>Sarah Mitchell</h4>
+              <p>Events Director, TechSummit</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Finally, a tool that actually understands event planning. The AI suggestions for venue and timing were spot on. Game changer."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">JR</div>
+            <div class="author-info">
+              <h4>James Rodriguez</h4>
+              <p>Founder, Urban Gatherings</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"We cut our event planning time in half. The vendor matching feature alone has saved us months of back-and-forth."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">EK</div>
+            <div class="author-info">
+              <h4>Emma Kim</h4>
+              <p>CEO, Culture Collective</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="waitlist">
+    <form class="signup-form" style="margin: 0 auto 2rem; max-width: 440px;" onsubmit="handleSignup(event)">
+      <input type="email" placeholder="Enter your work email" required style="flex:1;min-width:220px;padding:1rem 1.25rem;border:1px solid #2A2A2A;border-radius:8px;font-size:1rem;background:#111;color:#FAFAFA;">
+      <button type="submit" class="cta-primary">Get Early Access</button>
+    </form>
+    <p>© 2026 EventAI. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function handleSignup(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button');
+      btn.textContent = '✓ You\'re on the list!';
+      btn.style.background = 'linear-gradient(135deg, #10B981, #059669)';
+    }
+  </script>
+</body>
+</html>
